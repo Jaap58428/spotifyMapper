@@ -22,6 +22,8 @@ const getTokenFromUrl = () => {
     parameter = 'access_token'
     if(window.location.href.indexOf(parameter) > -1){
         token = urlparameter = getUrlVars()[parameter];
+        console.log('TOKEN FOUND!');
+        
     } 
 
     return token
@@ -29,7 +31,7 @@ const getTokenFromUrl = () => {
 
 const checkToken = () => {
     token = getTokenFromUrl()
-    if (token) {
+    if (token !== null) {
         console.log('Token found:', token);
     } else if (confirm("There seems to be no token, please login")) {
         authenticateUser()
