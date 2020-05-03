@@ -1,8 +1,5 @@
-// Leave these, required for Spotify Authentication
-const client_id = 'ba8b2e03236a45b0828c5e3573b316fa'
-token;
-
 const authenticateUser = () => {
+    const client_id = 'ba8b2e03236a45b0828c5e3573b316fa'
     const redirect_uri = encodeURI("https://itsjaap.nl/projecten/spotifyMapper/")
     window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token`);
 }
@@ -49,7 +46,7 @@ const getCitiesfromArtistPage = (url) =>
   return [];
 }
 
-const makeAPICall = () =>
+const makeAPICall = (token) =>
 {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -85,10 +82,7 @@ class City {
 
 const main = () => {
     token = getToken()
-    var london = new City("London");
-    london.addToList("Nothing But Thieves");
-    london.addToList("Frank Carter");
-    console.log(london.bandCount);
+    makeAPICall(token)
 }
 
 window.onload = main
