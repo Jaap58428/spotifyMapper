@@ -6,37 +6,45 @@ const authenticateUser = () => {
     window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token`);
 }
 
-function getUrlVars() {
-    // https://html-online.com/articles/get-url-parameters-javascript/
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
-}
+// const getTokenFromUrl = () => {
+    
+    
+//     if(uri.indexOf(param) > -1){
+//         tokenStart = uri.indexOf(param)
+//         tokenEnd = uri.indexOf("&", tokenStart)
+//         token = uri.slice(tokenStart, tokenEnd)
+//         console.log(tokenStart);
+//         console.log(tokenEnd);
+        
+        
+//         console.log('TOKEN FOUND!', token);
+//     } 
 
-const getTokenFromUrl = () => {
-    token = null
-    parameter = 'access_token'
-    if(window.location.href.indexOf(parameter) > -1){
-        token = getUrlVars()[parameter];
-        console.log('TOKEN FOUND!');
+//     return token
+// }
+
+const getToken = () => {
+    uri = window.location.href
+    param = "access_token"
+
+    if(uri.indexOf(param) > -1){
+        tokenIndex = uri.indexOf(param)
+        tokenStart = uri.indexOf("=", tokenIndex) + 1
+        tokenEnd = uri.indexOf("&", tokenStart)
+        token = uri.slice(tokenStart, tokenEnd)
+        return token
     } 
 
-    return token
-}
-
-const checkToken = () => {
-    token = getTokenFromUrl()
-    if (token !== null) {
-        console.log('Token found:', token);
-    } else if (confirm("There seems to be no token, please login")) {
+    if (confirm("There seems to be no token, please login")) {
         authenticateUser()
     }
+
+    return null
+
 }
 
 const main = () => {
-    checkToken()
+    token = getToken()
     var london = new City("London");
     london.addToList("Nothing But Thieves");
     london.addToList("Frank Carter");
