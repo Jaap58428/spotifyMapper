@@ -23,8 +23,8 @@ const getTokenFromUrl = () => {
     if(window.location.href.indexOf(parameter) > -1){
         token = urlparameter = getUrlVars()[parameter];
         console.log('TOKEN FOUND!');
-        
-    } 
+
+    }
 
     return token
 }
@@ -36,14 +36,6 @@ const checkToken = () => {
     } else if (confirm("There seems to be no token, please login")) {
         authenticateUser()
     }
-}
-
-const main = () => {
-    checkToken()
-    var london = new City("London");
-    london.addToList("Nothing But Thieves");
-    london.addToList("Frank Carter");
-    console.log(london.bandCount);
 }
 
 class City {
@@ -63,6 +55,14 @@ class City {
   {
     return this.bandArray.length;
   }
+}
+
+const main = () => {
+    checkToken()
+    var london = new City("London");
+    london.addToList("Nothing But Thieves");
+    london.addToList("Frank Carter");
+    console.log(london.bandCount);
 }
 
 window.onload = main
