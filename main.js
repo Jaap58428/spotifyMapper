@@ -7,9 +7,7 @@ const authenticateUser = () => {
 }
 
 function getUrlVars() {
-    // no clue, just grabbed this from online
     // https://html-online.com/articles/get-url-parameters-javascript/
-
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
         vars[key] = value;
@@ -21,9 +19,8 @@ const getTokenFromUrl = () => {
     token = null
     parameter = 'access_token'
     if(window.location.href.indexOf(parameter) > -1){
-        token = urlparameter = getUrlVars()[parameter];
+        token = getUrlVars()[parameter];
         console.log('TOKEN FOUND!');
-
     }
 
     return token
