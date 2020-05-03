@@ -43,7 +43,42 @@ const connectArtistsAndCities = (text) =>
 const getCitiesfromArtistPage = (url) =>
 {
   // hackedy // HACK:
-  return [];
+  console.log(url);
+
+  amountString = "34,995 monthly listeners"
+  amountEnd = amountString.indexOf(" ")
+  amountNumber = Number(amountString.slice(0, amountEnd).replace(/\,/g,''))
+  console.log(amountNumber);
+  
+
+  cities = []
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          body = xhttp.responseText
+          console.log(body);
+          citySection = document.getElementsByClassName("ArtistAbout__insights")[0]
+          
+          cityData = citySection.getElementsByClassName('ArtistAbout__city')
+          cityData.forEach(cityElement => {
+              cityName = cityElement.getElementsByClassName('ArtistAbout__city__name')[0].innerHTML
+              
+            //   Code for getting city amount
+            //   cityAmount = cityElement.getElementsByClassName('ArtistAbout__city__listeners')[0].innerHTML
+            //   amountEnd = amountString.indexOf(" ")
+            //   amountNumber = Number(amountString.slice(0, amountEnd).replace(/\,/g,''))
+
+              cities.push(cityName)
+          });
+
+          
+      }
+  };
+  xhttp.open("GET", url + "/about");
+  xhttp.send();
+
+  return cities;
 }
 
 const makeAPICall = (token) =>
