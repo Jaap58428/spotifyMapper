@@ -17,6 +17,7 @@ const authenticateUser = () => {
     full_url = auth_url + '?client_id=' + client_id + '&redirect_uri=' + redirect_uri
 
     xhttp.open("GET", full_url , true);
+    xhttp.setRequestHeader('Access-Control-Allow-Origin', '*')
     xhttp.send();
     return null
 }
