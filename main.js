@@ -1,9 +1,7 @@
-var cityInstances = [];
-
 const authenticateUser = () => {
     const client_id = 'ba8b2e03236a45b0828c5e3573b316fa'
     const redirect_uri = encodeURI("https://itsjaap.nl/projecten/spotifyMapper/")
-    window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token`);
+    window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token&scope=user-top-read`);
 }
 
 const getToken = () => {
@@ -16,7 +14,7 @@ const getToken = () => {
         tokenEnd = uri.indexOf("&", tokenStart)
         token = uri.slice(tokenStart, tokenEnd)
         return token
-    }
+    } 
 
     if (confirm("There seems to be no token, please login")) {
         authenticateUser()
@@ -32,27 +30,12 @@ const connectArtistsAndCities = (text) =>
   for (var i = 0; i < items.length; i++)
   {
     var name = items[i].name;
-    console.log(name);
     var cities = getCitiesfromArtistPage(items[i].external_urls.spotify);
     for (var j = 0; j < cities.length; j++)
     {
-      for (var k = 0; k < cityInstances.length; k++)
-      {
-        // check if city excists as object of city class
-        // if yes -> only add band name to its list
-        if (cities[j] == cityInstances[k])
-        {
-            var city = cityInstances[k];
-            city.addToList(name);
-            console.Log(cityInstances);
-            return;
-        }
-      }
+      // check if city excists as object of city class
       // if not -> make instance and add band name to its addToList
-      newCity = new City(cities[j]);
-      newCity.addToList(name);
-      cityInstances.push(newCity.name);
-      console.log(newCity);
+      // if yes -> only add band name to its list
     }
   }
 }
@@ -60,7 +43,7 @@ const connectArtistsAndCities = (text) =>
 const getCitiesfromArtistPage = (url) =>
 {
   // hackedy // HACK:
-  return ["London", "Amsterdam", "Berlin", "Budapest"];
+  return [];
 }
 
 const makeAPICall = (token) =>
@@ -98,8 +81,8 @@ class City {
 }
 
 const main = () => {
-    //token = getToken()
-    makeAPICall("BQB4v7nL755jXGurcJbY13uejyS1ZI1DnLi3mwfy5nJYDKElvQrsYUfLeVM6IznGi3nDfr2FlsU_Co4fAeqBRLIsmJA6FVuiThVL9wb70aOIucSoE0NgZPQFuoDwM04nD6Lma0yd5CtgSx6LTeCHjhg")
+    token = getToken()
+    makeAPICall(token)
 }
 
 window.onload = main
