@@ -44,14 +44,7 @@ const getCitiesfromArtistPage = (url) =>
 {
   // hackedy // HACK:
   console.log(url);
-
-  amountString = "34,995 monthly listeners"
-  amountEnd = amountString.indexOf(" ")
-  amountNumber = Number(amountString.slice(0, amountEnd).replace(/\,/g,''))
-  console.log(amountNumber);
-  
-
-  cities = []
+    cities = []
 
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
