@@ -1,38 +1,30 @@
 // Leave these, required for Spotify Authentication
 const client_id = 'ba8b2e03236a45b0828c5e3573b316fa'
+token;
 
 const authenticateUser = () => {
     const redirect_uri = encodeURI("https://itsjaap.nl/projecten/spotifyMapper/")
     window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token`);
 }
 
-function getUrlVars() {
-    // https://html-online.com/articles/get-url-parameters-javascript/
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
-}
+const getToken = () => {
+    uri = window.location.href
+    param = "access_token"
 
-const getTokenFromUrl = () => {
-    token = null
-    parameter = 'access_token'
-    if(window.location.href.indexOf(parameter) > -1){
-        token = getUrlVars()[parameter];
-        console.log('TOKEN FOUND!');
-    }
+    if(uri.indexOf(param) > -1){
+        tokenIndex = uri.indexOf(param)
+        tokenStart = uri.indexOf("=", tokenIndex) + 1
+        tokenEnd = uri.indexOf("&", tokenStart)
+        token = uri.slice(tokenStart, tokenEnd)
+        return token
+    } 
 
-    return token
-}
-
-const checkToken = () => {
-    token = getTokenFromUrl()
-    if (token !== null) {
-        console.log('Token found:', token);
-    } else if (confirm("There seems to be no token, please login")) {
+    if (confirm("There seems to be no token, please login")) {
         authenticateUser()
     }
+
+    return null
+
 }
 
 const connectArtistsAndCities = (text) =>
@@ -92,8 +84,7 @@ class City {
 }
 
 const main = () => {
-    // checkToken()
-    makeAPICall();
+    token = getToken()
     var london = new City("London");
     london.addToList("Nothing But Thieves");
     london.addToList("Frank Carter");
