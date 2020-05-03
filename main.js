@@ -1,38 +1,35 @@
 const authenticateUser = () => {
-    const client_id = 'ba8b2e03236a45b0828c5e3573b316fa'
-    const redirect_uri = encodeURI("https://itsjaap.nl/projecten/spotifyMapper/")
-    window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token&scope=user-top-read`);
+  const client_id = 'ba8b2e03236a45b0828c5e3573b316fa'
+  const redirect_uri = encodeURI("https://itsjaap.nl/projecten/spotifyMapper/")
+  window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token&scope=user-top-read`);
 }
 
 const getToken = () => {
-    uri = window.location.href
-    param = "access_token"
+  uri = window.location.href
+  param = "access_token"
 
-    if(uri.indexOf(param) > -1){
-        tokenIndex = uri.indexOf(param)
-        tokenStart = uri.indexOf("=", tokenIndex) + 1
-        tokenEnd = uri.indexOf("&", tokenStart)
-        token = uri.slice(tokenStart, tokenEnd)
-        return token
-    } 
+  if (uri.indexOf(param) > -1) {
+    tokenIndex = uri.indexOf(param)
+    tokenStart = uri.indexOf("=", tokenIndex) + 1
+    tokenEnd = uri.indexOf("&", tokenStart)
+    token = uri.slice(tokenStart, tokenEnd)
+    return token
+  }
 
-    if (confirm("There seems to be no token, please login")) {
-        authenticateUser()
-    }
+  if (confirm("There seems to be no token, please login")) {
+    authenticateUser()
+  }
 
-    return null
+  return null
 
 }
 
-const connectArtistsAndCities = (text) =>
-{
+const connectArtistsAndCities = (text) => {
   var items = text.items
-  for (var i = 0; i < items.length; i++)
-  {
+  for (var i = 0; i < items.length; i++) {
     var name = items[i].name;
     var cities = getCitiesfromArtistPage(items[i].external_urls.spotify);
-    for (var j = 0; j < cities.length; j++)
-    {
+    for (var j = 0; j < cities.length; j++) {
       // check if city excists as object of city class
       // if not -> make instance and add band name to its addToList
       // if yes -> only add band name to its list
@@ -40,33 +37,32 @@ const connectArtistsAndCities = (text) =>
   }
 }
 
-const getCitiesfromArtistPage = (url) =>
-{
+const getCitiesfromArtistPage = (url) => {
   // hackedy // HACK:
   console.log(url);
-    cities = []
+  cities = []
 
   var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-          body = xhttp.responseText
-          console.log(body);
-          citySection = document.getElementsByClassName("ArtistAbout__insights")[0]
-          
-          cityData = citySection.getElementsByClassName('ArtistAbout__city')
-          cityData.forEach(cityElement => {
-              cityName = cityElement.getElementsByClassName('ArtistAbout__city__name')[0].innerHTML
-              
-            //   Code for getting city amount
-            //   cityAmount = cityElement.getElementsByClassName('ArtistAbout__city__listeners')[0].innerHTML
-            //   amountEnd = amountString.indexOf(" ")
-            //   amountNumber = Number(amountString.slice(0, amountEnd).replace(/\,/g,''))
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      body = xhttp.responseText
+      console.log(body);
+      citySection = document.getElementsByClassName("ArtistAbout__insights")[0]
 
-              cities.push(cityName)
-          });
+      cityData = citySection.getElementsByClassName('ArtistAbout__city')
+      cityData.forEach(cityElement => {
+        cityName = cityElement.getElementsByClassName('ArtistAbout__city__name')[0].innerHTML
 
-          
-      }
+        //   Code for getting city amount
+        //   cityAmount = cityElement.getElementsByClassName('ArtistAbout__city__listeners')[0].innerHTML
+        //   amountEnd = amountString.indexOf(" ")
+        //   amountNumber = Number(amountString.slice(0, amountEnd).replace(/\,/g,''))
+
+        cities.push(cityName)
+      });
+
+
+    }
   };
   xhttp.open("GET", url + "/about");
   xhttp.send();
@@ -74,13 +70,12 @@ const getCitiesfromArtistPage = (url) =>
   return cities;
 }
 
-const makeAPICall = (token) =>
-{
+const makeAPICall = (token) => {
   var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-         connectArtistsAndCities(JSON.parse(xhttp.response));
-      }
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      connectArtistsAndCities(JSON.parse(xhttp.response));
+    }
   };
   xhttp.open("GET", "https://api.spotify.com/v1/me/top/artists?limit=50");
   xhttp.setRequestHeader("Accept", "application/json");
@@ -92,25 +87,22 @@ const makeAPICall = (token) =>
 class City {
   bandArray = [];
 
-  constructor(cityName)
-  {
+  constructor(cityName) {
     this.name = cityName;
   }
 
-  addToList(band)
-  {
+  addToList(band) {
     this.bandArray.push(band);
   }
 
-  get bandCount()
-  {
+  get bandCount() {
     return this.bandArray.length;
   }
 }
 
 const main = () => {
-    token = getToken()
-    makeAPICall(token)
+  token = getToken()
+  makeAPICall(token)
 }
 
 window.onload = main
