@@ -1,5 +1,6 @@
 // Leave these, required for Spotify Authentication
 const client_id = 'ba8b2e03236a45b0828c5e3573b316fa'
+token;
 
 const authenticateUser = () => {
     const redirect_uri = encodeURI("https://itsjaap.nl/projecten/spotifyMapper/")
