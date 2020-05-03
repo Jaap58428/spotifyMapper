@@ -40,6 +40,29 @@ const checkToken = () => {
 
 const main = () => {
     checkToken()
+    var london = new City("London");
+    london.addToList("Nothing But Thieves");
+    london.addToList("Frank Carter");
+    console.log(london.bandCount);
+}
+
+class City {
+  bandArray = [];
+
+  constructor(cityName)
+  {
+    this.name = cityName;
+  }
+
+  addToList(band)
+  {
+    this.bandArray.push(band);
+  }
+
+  get bandCount()
+  {
+    return this.bandArray.length;
+  }
 }
 
 window.onload = main
