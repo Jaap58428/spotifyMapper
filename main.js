@@ -27,6 +27,43 @@ const getToken = () => {
 
 }
 
+const connectArtistsAndCities = (text) =>
+{
+  var items = text.items
+  for (var i = 0; i < items.length; i++)
+  {
+    var name = items[i].name;
+    var cities = getCitiesfromArtistPage(items[i].external_urls.spotify);
+    for (var j = 0; j < cities.length; j++)
+    {
+      // check if city excists as object of city class
+      // if not -> make instance and add band name to its addToList
+      // if yes -> only add band name to its list
+    }
+  }
+}
+
+const getCitiesfromArtistPage = (url) =>
+{
+  // hackedy // HACK:
+  return [];
+}
+
+const makeAPICall = () =>
+{
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         connectArtistsAndCities(JSON.parse(xhttp.response));
+      }
+  };
+  xhttp.open("GET", "https://api.spotify.com/v1/me/top/artists?limit=50");
+  xhttp.setRequestHeader("Accept", "application/json");
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.setRequestHeader("Authorization", "Bearer " + token)
+  xhttp.send();
+}
+
 class City {
   bandArray = [];
 
