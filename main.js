@@ -1,7 +1,7 @@
 const authenticateUser = () => {
     const client_id = 'ba8b2e03236a45b0828c5e3573b316fa'
     const redirect_uri = encodeURI("https://itsjaap.nl/projecten/spotifyMapper/")
-    window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token`);
+    window.location.replace(`https://accounts.spotify.com/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token&scope=user-top-read`);
 }
 
 const getToken = () => {
